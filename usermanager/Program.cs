@@ -27,17 +27,8 @@ namespace usermanager
             string favoriteColor = args[2];
 
             FusionAuthSyncClient client = new FusionAuthSyncClient(apiKey, fusionauthURL, tenantId);
-	    User userToCreate = new User();
-	    userToCreate.email = email;
-	    userToCreate.password = password;
-	    Dictionary<string, object> data = new Dictionary<string, object>();
-	    data.Add("favoriteColor", favoriteColor);
-	    userToCreate.data = data;
 
-	    UserRequest userRequest = new UserRequest();
-	    userRequest.sendSetPasswordEmail = false;
-	    userRequest.user = userToCreate;
-
+	    var userRequest = buildUserRequest(email, password, favoriteColor);
             var response = client.CreateUser(null, userRequest);
 	    // debugging
 	    //string json = JsonConvert.SerializeObject(response);
@@ -46,20 +37,13 @@ namespace usermanager
             if (response.WasSuccessful())
             {
                 var user = response.successResponse.user;
-	        RegistrationRequest registrationRequest = new RegistrationRequest();
-	        UserRegistration registration = new UserRegistration();
-	        registration.applicationId = Guid.Parse(applicationId);
-	        registrationRequest.sendSetPasswordEmail = false;
-	        registrationRequest.skipRegistrationVerification = true;
-	        registrationRequest.skipVerification = true;
-	        registrationRequest.registration = registration;
-                var registrationResponse = client.Register(user.id, registrationRequest);
+		var registrationResponse = register(client, user);
 		if (registrationResponse.WasSuccessful()) {
                     Console.WriteLine("created user with email: "+user.email);
 		} 
                 else if (registrationResponse.statusCode != 200) 
                 {
-                    var statusCode = response.statusCode;
+                    var statusCode = registrationResponse.statusCode;
                     Console.WriteLine("failed with status "+statusCode);
 	            string json = JsonConvert.SerializeObject(response);
                     Console.WriteLine(json);
@@ -72,6 +56,33 @@ namespace usermanager
 	        string json = JsonConvert.SerializeObject(response);
                 Console.WriteLine(json);
             } 
+        }
+
+        static UserRequest buildUserRequest(string email, string password, string favoriteColor)
+	{
+	    User userToCreate = new User();
+	    userToCreate.email = email;
+	    userToCreate.password = password;
+	    Dictionary<string, object> data = new Dictionary<string, object>();
+	    data.Add("favoriteColor", favoriteColor);
+	    userToCreate.data = data;
+
+	    UserRequest userRequest = new UserRequest();
+	    userRequest.sendSetPasswordEmail = false;
+	    userRequest.user = userToCreate;
+	    return userRequest;
+	}
+
+        static ClientResponse<RegistrationResponse> register(FusionAuthSyncClient client, User user)
+        {
+	    RegistrationRequest registrationRequest = new RegistrationRequest();
+	    UserRegistration registration = new UserRegistration();
+	    registration.applicationId = Guid.Parse(applicationId);
+	    registrationRequest.sendSetPasswordEmail = false;
+	    registrationRequest.skipRegistrationVerification = true;
+	    registrationRequest.skipVerification = true;
+	    registrationRequest.registration = registration;
+            return client.Register(user.id, registrationRequest);
         }
     }
 }
