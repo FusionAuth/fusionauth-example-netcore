@@ -7,11 +7,11 @@ This application uses FusionAuth APIs to add a user and then search for users fr
 
 ```
 cd usermanager
-fusionauth_api_key=<yourkey here> dotnet.exe run
+fusionauth_api_key=<yourkey here> dotnet.exe run -- newuser@example.com mysecurepassword blue
 ```
 
 Output:
 ```
-retrieved user with email: dotnetcore@example.com
+created user with email: newuser@example.com
 ```
 
