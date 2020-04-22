@@ -14,6 +14,8 @@ namespace usermanager
         private static readonly string fusionauthURL = "http://localhost:9011";
 
 	private static readonly string tenantId = "66636432-3932-3836-6630-656464383862";
+	private static readonly string applicationId = "4243b56f-0b45-4882-aa23-ac75eea22d22";
+
         static void Main(string[] args)
         {
 	    if (args.Length != 3) {
@@ -31,20 +33,13 @@ namespace usermanager
 	    Dictionary<string, object> data = new Dictionary<string, object>();
 	    data.Add("favoriteColor", favoriteColor);
 	    userToCreate.data = data;
-	    //registration.verified = true;
-
-	    //registration.insertInstant = DateTimeOffset.UtcNow;
-	    //var registrations = new List<UserRegistration>();
-            //registrations.Add(registration);
-
-	    //userToCreate.registrations = registrations;
 
 	    UserRequest userRequest = new UserRequest();
 	    userRequest.sendSetPasswordEmail = false;
 	    userRequest.user = userToCreate;
-	    //string u = JsonConvert.SerializeObject(userRequest);
-            //Console.WriteLine(u);
+
             var response = client.CreateUser(null, userRequest);
+	    // debugging
 	    //string json = JsonConvert.SerializeObject(response);
             //Console.WriteLine(json);
 
@@ -53,7 +48,7 @@ namespace usermanager
                 var user = response.successResponse.user;
 	        RegistrationRequest registrationRequest = new RegistrationRequest();
 	        UserRegistration registration = new UserRegistration();
-	        registration.applicationId = Guid.Parse("4243b56f-0b45-4882-aa23-ac75eea22d22");
+	        registration.applicationId = Guid.Parse(applicationId);
 	        registrationRequest.sendSetPasswordEmail = false;
 	        registrationRequest.skipRegistrationVerification = true;
 	        registrationRequest.skipVerification = true;
