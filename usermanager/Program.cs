@@ -2,6 +2,7 @@
 using io.fusionauth;
 using io.fusionauth.domain;
 using io.fusionauth.domain.api;
+using io.fusionauth.domain.api.user;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -30,11 +31,9 @@ namespace usermanager
 	    Dictionary<string, object> data = new Dictionary<string, object>();
 	    data.Add("favoriteColor", favoriteColor);
 	    userToCreate.data = data;
-	    UserRegistration registration = new UserRegistration();
-	    registration.applicationId = Guid.Parse("4243b56f-0b45-4882-aa23-ac75eea22d22");
-	    registration.verified = true;
+	    //registration.verified = true;
 
-	    registration.insertInstant = DateTimeOffset.UtcNow;
+	    //registration.insertInstant = DateTimeOffset.UtcNow;
 	    //var registrations = new List<UserRegistration>();
             //registrations.Add(registration);
 
@@ -52,7 +51,24 @@ namespace usermanager
             if (response.WasSuccessful())
             {
                 var user = response.successResponse.user;
-                Console.WriteLine("created user with email: "+user.email);
+	        RegistrationRequest registrationRequest = new RegistrationRequest();
+	        UserRegistration registration = new UserRegistration();
+	        registration.applicationId = Guid.Parse("4243b56f-0b45-4882-aa23-ac75eea22d22");
+	        registrationRequest.sendSetPasswordEmail = false;
+	        registrationRequest.skipRegistrationVerification = true;
+	        registrationRequest.skipVerification = true;
+	        registrationRequest.registration = registration;
+                var registrationResponse = client.Register(user.id, registrationRequest);
+		if (registrationResponse.WasSuccessful()) {
+                    Console.WriteLine("created user with email: "+user.email);
+		} 
+                else if (registrationResponse.statusCode != 200) 
+                {
+                    var statusCode = response.statusCode;
+                    Console.WriteLine("failed with status "+statusCode);
+	            string json = JsonConvert.SerializeObject(response);
+                    Console.WriteLine(json);
+                } 
             } 
             else if (response.statusCode != 200) 
             {
