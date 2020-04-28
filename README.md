@@ -4,6 +4,10 @@ An example of using the FusionAuth API with .NET core.
 
 This application uses FusionAuth APIs to add a user and then search for users from the command line. This can be used to pull a subset of data from the FusionAuth database, for instance to get the assigned laptop number.
 
+## Blog post
+
+You can read a blog post about building this example application here: https://fusionauth.io/blog/2020/04/28/dot-net-command-line-client
+
 ## To run
 
 ```
