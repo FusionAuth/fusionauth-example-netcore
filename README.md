@@ -20,3 +20,4 @@ Output:
 created user with email: newuser@example.com
 ```
 
+If you want to test patching the user, edit the code and uncomment the patching after registration.

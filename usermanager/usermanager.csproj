@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FusionAuth.Client" Version="1.15.7" />
+    <PackageReference Include="FusionAuth.Client" Version="1.21.0" />
     <PackageReference Include="JSON.Net" Version="1.0.18" />
   </ItemGroup>
 

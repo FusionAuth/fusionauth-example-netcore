@@ -13,7 +13,7 @@ namespace usermanager
         private static readonly string apiKey = Environment.GetEnvironmentVariable("fusionauth_api_key");
         private static readonly string fusionauthURL = "http://localhost:9011";
 
-	private static readonly string tenantId = "66636432-3932-3836-6630-656464383862";
+	private static readonly string tenantId = "30663132-6464-6665-3032-326466613934";
 	private static readonly string applicationId = "4243b56f-0b45-4882-aa23-ac75eea22d22";
 
         static void Main(string[] args)
@@ -39,7 +39,8 @@ namespace usermanager
                 var user = response.successResponse.user;
 		var registrationResponse = register(client, user);
 		if (registrationResponse.WasSuccessful()) {
-                    Console.WriteLine("created user with email: "+user.email);
+		    //var patchResponse = patch(client, "favcolorred",user);
+                    //Console.WriteLine("patched user with email: "+user.email);
 		} 
                 else if (registrationResponse.statusCode != 200) 
                 {
@@ -83,6 +84,22 @@ namespace usermanager
 	    registrationRequest.skipVerification = true;
 	    registrationRequest.registration = registration;
             return client.Register(user.id, registrationRequest);
+        }
+
+        static ClientResponse<UserResponse> patch(FusionAuthSyncClient client, String newfavColor, User userToPatch)
+        {
+	    Dictionary<string, object> request = new Dictionary<string, object>();
+	    Dictionary<string, object> user = new Dictionary<string, object>();
+	    Dictionary<string, object> data = new Dictionary<string, object>();
+            user.Add("data", data);
+	    data.Add("favoriteColor", newfavColor); 
+            data.Add("recoveryCode", "recoveryCode");
+            user.Add("firstName", "D");
+            request.Add("user", user);
+	    string json = JsonConvert.SerializeObject(request);
+            Console.WriteLine(json);
+
+            return client.PatchUser(userToPatch.id, request);
         }
     }
 }
