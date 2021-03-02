@@ -10,9 +10,11 @@ You can read a blog post about building this example application here: https://f
 
 ## To run
 
+
 ```
 cd usermanager
-fusionauth_api_key=<yourkey here> dotnet.exe run -- newuser@example.com mysecurepassword blue
+fusionauth_api_key=<yourkey here> dotnet.exe run -- newuser@example.com mysecurepassword blue # on windows
+fusionauth_api_key=<yourkey here> dotnet run -- newuser@example.com mysecurepassword blue # on macos or linux
 ```
 
 Output:
