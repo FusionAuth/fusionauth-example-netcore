@@ -11,10 +11,10 @@ namespace usermanager
     class Program
     {
         private static readonly string apiKey = Environment.GetEnvironmentVariable("fusionauth_api_key");
-        private static readonly string fusionauthURL = "http://localhost:9011";
+        private static readonly string fusionauthURL = "https://UPDATE_WITH_HOSTNAME";
 
-	private static readonly string tenantId = "30663132-6464-6665-3032-326466613934";
-	private static readonly string applicationId = "4243b56f-0b45-4882-aa23-ac75eea22d22";
+	private static readonly string tenantId = "UPDATE_WITH_TENANT_ID";
+	private static readonly string applicationId = "UPDATE_WITH_APPLICATION_ID";
 
         static void Main(string[] args)
         {

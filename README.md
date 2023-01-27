@@ -8,6 +8,10 @@ This application uses FusionAuth APIs to add a user and then search for users fr
 
 You can read a blog post about building this example application here: https://fusionauth.io/blog/2020/04/28/dot-net-command-line-client
 
+## Setup
+
+Update `usermanager/Program.cs` where noted.
+
 ## To run
 
 
